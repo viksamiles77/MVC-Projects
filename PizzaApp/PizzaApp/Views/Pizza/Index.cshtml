@@ -1,0 +1,33 @@
+﻿@model List<PizzaViewModel>
+
+<form>
+<input class="form-control" asp-for="@ViewBag.SearchCriteria"></input>
+<button id="">Search</button>
+</form>
+
+<table>
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var pizza in Model)
+        {
+            <tr>
+                <th scope="row">@pizza.Id</th>
+                <td>@pizza.Name</td>
+                <td>@pizza.Description</td>
+                <td><a asp-action="Details" asp-controller="Pizza" asp-route-id="@pizza.Id" class="btn btn-primary">Details</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+public class PizzaIndexViewModel {
+public string SearchCriteria { get; set;}
+public List<PizzaViewModel>
+}
