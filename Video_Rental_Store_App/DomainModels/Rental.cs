@@ -1,8 +1,7 @@
 ﻿namespace DomainModels
 {
-    public class Rental
+    public class Rental : BaseEntity
     {
-        public int Id { get; set; }
         public int MovieId { get; set; }
         public int UserId { get; set; }
         public DateTime RentedOn { get; set; }
