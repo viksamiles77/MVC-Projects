@@ -1,11 +1,20 @@
 ﻿@model List<PizzaViewModel>
 
-<form>
-<input class="form-control" asp-for="@ViewBag.SearchCriteria"></input>
-<button id="">Search</button>
-</form>
+@{
+    var filterModel = new FilterViewModel();
+}
 
-<table>
+
+<div class="col-4">
+    <form asp-action="SearchByName" method="post" class="input-group">
+        <input asp-for="@filterModel.Name" class="form-control col-6" placeholder="Пребарај..." />
+        <button type="submit" class="btn btn-info">Search</button>
+    </form>
+</div>
+<div>
+    <a asp-action="Create" class="btn btn-primary">Create new pizza</a>
+</div>
+<table class="table">
     <thead>
         <tr>
             <th scope="col">#</th>
@@ -21,13 +30,12 @@
                 <th scope="row">@pizza.Id</th>
                 <td>@pizza.Name</td>
                 <td>@pizza.Description</td>
-                <td><a asp-action="Details" asp-controller="Pizza" asp-route-id="@pizza.Id" class="btn btn-primary">Details</a></td>
+                <td>
+                    <a asp-action="Details" asp-controller="Pizza" asp-route-id="@pizza.Id" class="btn btn-primary">Details</a>
+                    <a asp-action="Edit" asp-controller="Pizza" asp-route-id="@pizza.Id" class="btn btn-info">Edit</a>
+                    <a asp-action="Delete" asp-controller="Pizza" asp-route-id="@pizza.Id" class="btn btn-danger">Remove</a>
+                </td>
             </tr>
         }
     </tbody>
 </table>
-
-public class PizzaIndexViewModel {
-public string SearchCriteria { get; set;}
-public List<PizzaViewModel>
-}

@@ -1,8 +1,14 @@
 [
   {
-    "Id": 1,
-    "Name": "Capri",
-    "Description": "Capri description",
-    "ImageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Eq_it-na_pizza-margherita_sep2005_sml.jpg/640px-Eq_it-na_pizza-margherita_sep2005_sml.jpg"
+    "Name": "Peperoni",
+    "Description": "This is classic Peperoni pizza.",
+    "ImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvcIIKSUKuHyIIw8Gu21XDKGDOTChxhlpI0w&s",
+    "Id": 2
+  },
+  {
+    "Name": "Burger Pizza",
+    "Description": "The burger pizza is made up of a combination of the classic burger buns and the ingredients of a pizza – vegetables, chewy cheese, and all the other necessities to provide the right taste.",
+    "ImageUrl": "https://www.dominos.co.in/files/items/160790_Burger_Pizza_427X298_Pixel.jpg",
+    "Id": 3
   }
 ]
