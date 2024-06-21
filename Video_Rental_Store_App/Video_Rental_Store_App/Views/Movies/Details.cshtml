@@ -1,0 +1,21 @@
+﻿@model DomainModels.Movie
+
+<h2>@Model.Title</h2>
+<p>Genre: @Model.Genre</p>
+<p>Language: @Model.Language</p>
+<p>Release Date: @Model.ReleaseDate.ToShortDateString()</p>
+<p>Length: @Model.Length</p>
+<p>Age Restriction: @Model.AgeRestriction</p>
+<p>Quantity: @Model.Quantity</p>
+
+@if (Model.Quantity > 0)
+{
+    <form asp-action="Rent" method="post">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-primary">Rent</button>
+    </form>
+}
+else
+{
+    <p class="text-danger">This movie is not available for rent.</p>
+}

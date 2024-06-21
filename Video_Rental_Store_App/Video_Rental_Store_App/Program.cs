@@ -1,3 +1,6 @@
+using Services.Implementation;
+using Services.Interfaces;
+
 namespace Video_Rental_Store_App
 {
     public class Program
@@ -28,7 +31,7 @@ namespace Video_Rental_Store_App
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Home}/{action=Login}/{id?}");
 
             app.Run();
         }
