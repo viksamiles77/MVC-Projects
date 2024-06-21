@@ -2,7 +2,7 @@
 {
     public enum GenreEnum
     {
-        Action,
+        Action = 1,
         Comedy,
         Drama,
         Horror,

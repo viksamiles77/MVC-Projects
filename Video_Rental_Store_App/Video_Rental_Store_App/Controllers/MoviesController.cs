@@ -1,23 +1,37 @@
 ﻿using DomainModels;
+using DomainModels.Enums;
 using Microsoft.AspNetCore.Mvc;
+using Services.Interfaces;
+using ViewModels;
 
 namespace Video_Rental_Store_App.Controllers
 {
     public class MoviesController : Controller
     {
-        private readonly List<Movie> _movies = new List<Movie>
-    {
-        new Movie { Id = 1, Title = "James Bond", Genre = "Action", Quantity = 5, IsAvailable = true, ReleaseDate = DateTime.Now.AddMonths(-1), Length = TimeSpan.FromMinutes(120), AgeRestriction = 18 },
-    };
+        private readonly IMovieService _movieService;
 
         public IActionResult Index()
         {
-            return View(_movies);
+            var movies = _movieService.GetAll();
+            var movieViewModels = movies.Select(m => new MovieViewModel
+            {
+                Id = m.Id,
+                Title = m.Title,
+                Genre = m.Genre,
+                IsAvailable = m.IsAvailable,
+                ReleaseDate = m.ReleaseDate,
+                Length = m.Length,
+                AgeRestriction = m.AgeRestriction,
+                Quantity = m.Quantity
+            }).ToList();
+
+            return View(movieViewModels);
         }
 
         public IActionResult Details(int id)
         {
-            var movie = _movies.FirstOrDefault(m => m.Id == id);
+            var movies = _movieService.GetAll();
+            var movie = movies.FirstOrDefault(m => m.Id == id);
             if (movie == null)
             {
                 return NotFound();
@@ -30,7 +44,8 @@ namespace Video_Rental_Store_App.Controllers
         [HttpPost]
         public IActionResult Rent(int id)
         {
-            var movie = _movies.FirstOrDefault(x => x.Id == id);
+            var movies = _movieService.GetAll();
+            var movie = movies.FirstOrDefault(x => x.Id == id);
             if (movie == null || movie.Quantity <= 0)
             {
                 return BadRequest("Movie is not available for rent");

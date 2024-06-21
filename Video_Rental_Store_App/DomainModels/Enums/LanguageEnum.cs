@@ -2,9 +2,12 @@
 {
     public enum LanguageEnum
     {
-        English,
+        English = 1,
         Spanish,
         French,
         German,
+        Macedonian,
+        Russian,
+        Serbian,
     }
 }

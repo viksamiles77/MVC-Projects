@@ -49,9 +49,9 @@ namespace DataAccess.Implementation
             WriteContent(items);
         }
 
-        public void Delete(T entity)
+        public void Delete(T user)
         {
-            DeleteById(entity.Id);
+            DeleteById(user.Id);
         }
 
         public void DeleteById(int id)

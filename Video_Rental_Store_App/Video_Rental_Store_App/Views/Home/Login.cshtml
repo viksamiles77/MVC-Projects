@@ -1,4 +1,4 @@
-﻿@model DomainModels.User
+﻿@model ViewModels.LoginViewModel
 
 <form asp-action="Login">
     <div class="form-group">
@@ -8,3 +8,6 @@
     </div>
     <button type="submit" class="btn btn-primary">Login</button>
 </form>
+<p>
+    Don't have an account? <a asp-action="Register">Register here</a>
+</p>

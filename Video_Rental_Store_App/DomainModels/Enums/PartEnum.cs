@@ -2,7 +2,7 @@
 {
     public enum PartEnum
     {
-        Actor,
+        Actor = 1,
         Director,
         Camera,
         Sound,

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using Video_Rental_Store_App.Models;
 using Services.Interfaces;
 using Services.Implementation;
+using ViewModels;
 
 namespace Video_Rental_Store_App.Controllers
 {
@@ -40,10 +41,10 @@ namespace Video_Rental_Store_App.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(User user)
+        public IActionResult Login(LoginViewModel model)
         {
             {
-                var authenticatedUser = _userService.AuthenticateUser(user.CardNumber);
+                var authenticatedUser = _userService.AuthenticateUser(model.CardNumber);
                 if (authenticatedUser != null)
                 {
                     HttpContext.Session.SetString("UserId", authenticatedUser.Id.ToString());
@@ -51,8 +52,25 @@ namespace Video_Rental_Store_App.Controllers
                 }
 
                 ModelState.AddModelError("", "Invalid card number");
-                return View(user);
+                return View(model);
             }
+        }
+
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Register(User user)
+        {
+            if (ModelState.IsValid)
+            {
+                _userService.RegisterUser(user);
+                return RedirectToAction("Login");
+            }
+
+            return View(user);
         }
     }
 }

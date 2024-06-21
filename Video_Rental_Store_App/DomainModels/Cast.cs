@@ -1,9 +1,11 @@
-﻿namespace DomainModels
+﻿using DomainModels.Enums;
+
+namespace DomainModels
 {
     public class Cast : BaseEntity
     {
-        public string MovieId { get; set; }
+        public int MovieId { get; set; }
         public string Name { get; set; }
-        public string Part { get; set; }
+        public PartEnum Part { get; set; }
     }
 }
