@@ -20,6 +20,9 @@ namespace Services.Implementation
 
         public void RegisterUser(User user)
         {
+            user.Id = users.Max(u => u.Id) + 1;
+            user.CreatedOn = DateTime.Now;
+            user.IsSubscriptionExpired = false;
             _userRepository.Add(user);
         }
 

@@ -5,6 +5,7 @@ using Video_Rental_Store_App.Models;
 using Services.Interfaces;
 using Services.Implementation;
 using ViewModels;
+using DomainModels.Enums;
 
 namespace Video_Rental_Store_App.Controllers
 {
@@ -62,15 +63,26 @@ namespace Video_Rental_Store_App.Controllers
         }
 
         [HttpPost]
-        public IActionResult Register(User user)
+        public IActionResult Register(UserViewModel userViewModel)
         {
             if (ModelState.IsValid)
             {
+                var user = new User
+                {
+                    FullName = $"{userViewModel.FirstName} {userViewModel.LastName}",
+                    Age = userViewModel.Age.Value,
+                    CardNumber = userViewModel.CardNumber,
+                    Email = userViewModel.Email,
+                    Password = userViewModel.Password,
+                    SubscriptionType = (SubscriptionTypeEnum)userViewModel.SubscriptionType,
+                    CreatedOn = DateTime.Now,
+                    IsSubscriptionExpired = false
+                };
                 _userService.RegisterUser(user);
                 return RedirectToAction("Login");
             }
 
-            return View(user);
+            return View(userViewModel);
         }
     }
 }

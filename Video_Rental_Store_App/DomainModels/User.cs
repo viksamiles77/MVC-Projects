@@ -1,4 +1,6 @@
-﻿namespace DomainModels
+﻿using DomainModels.Enums;
+
+namespace DomainModels
 {
     public class User : BaseEntity
     {
@@ -7,6 +9,8 @@
         public string CardNumber { get; set; }
         public DateTime CreatedOn { get; set; }
         public bool IsSubscriptionExpired { get; set; }
-        public string SubscriptionType { get; set; }
+        public SubscriptionTypeEnum SubscriptionType { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
     }
 }
