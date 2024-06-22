@@ -1,5 +1,4 @@
 ﻿using DomainModels;
-using DomainModels.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces;
 using ViewModels;
@@ -10,28 +9,21 @@ namespace Video_Rental_Store_App.Controllers
     {
         private readonly IMovieService _movieService;
 
+        public MoviesController(IMovieService movieService)
+        {
+            _movieService = movieService;
+        }
+
         public IActionResult Index()
         {
-            var movies = _movieService.GetAll();
-            var movieViewModels = movies.Select(m => new MovieViewModel
-            {
-                Id = m.Id,
-                Title = m.Title,
-                Genre = m.Genre,
-                IsAvailable = m.IsAvailable,
-                ReleaseDate = m.ReleaseDate,
-                Length = m.Length,
-                AgeRestriction = m.AgeRestriction,
-                Quantity = m.Quantity
-            }).ToList();
-
-            return View(movieViewModels);
+            var movies = _movieService.GetAllMovies();
+            ViewBag.Message = "No movies available";
+            return View(movies);
         }
 
         public IActionResult Details(int id)
         {
-            var movies = _movieService.GetAll();
-            var movie = movies.FirstOrDefault(m => m.Id == id);
+            var movie = _movieService.GetMovieById(id);
             if (movie == null)
             {
                 return NotFound();
@@ -39,33 +31,50 @@ namespace Video_Rental_Store_App.Controllers
             return View(movie);
         }
 
-
-        //maybe add this in services
-        [HttpPost]
-        public IActionResult Rent(int id)
+        public IActionResult Create()
         {
-            var movies = _movieService.GetAll();
-            var movie = movies.FirstOrDefault(x => x.Id == id);
-            if (movie == null || movie.Quantity <= 0)
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Create([FromForm]MovieViewModel movie)
+        {
+            if(!ModelState.IsValid)
             {
-                return BadRequest("Movie is not available for rent");
+                return View(movie);
             }
 
-            var userId = HttpContext.Session.GetString("UserId");
-            if (userId == null)
+            _movieService.AddMovie(movie);
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Edit(int id)
+        {
+            var movie = _movieService.GetMovieById(id);
+            if (movie == null)
             {
-                return RedirectToAction("Login", "Home");
+                return NotFound();
+            }
+            return View(movie);
+        }
+
+        [HttpPost]
+        public IActionResult Edit([FromForm] MovieViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
             }
 
-            var rental = new Rental
-            {
-                MovieId = movie.Id,
-                UserId = int.Parse(userId),
-                RentedOn = DateTime.Now
-            };
+            _movieService.UpdateMovie(model);
 
-            movie.Quantity--;
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Delete(int id)
+        {
+            _movieService.DeleteMovie(id);
             return RedirectToAction("Index");
         }
     }
 }
+

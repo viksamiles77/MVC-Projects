@@ -1,12 +1,38 @@
-﻿@model DomainModels.Movie
+﻿@model MovieViewModel
 
-<h2>@Model.Title</h2>
-<p>Genre: @Model.Genre</p>
-<p>Language: @Model.Language</p>
-<p>Release Date: @Model.ReleaseDate.ToShortDateString()</p>
-<p>Length: @Model.Length</p>
-<p>Age Restriction: @Model.AgeRestriction</p>
-<p>Quantity: @Model.Quantity</p>
+<h1>Movie Details</h1>
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">Title:</dt>
+        <dd class="col-sm-10">@Model.Title</dd>
+
+        <dt class="col-sm-2">Genre:</dt>
+        <dd class="col-sm-10">@Model.Genre</dd>
+
+        <dt class="col-sm-2">Language:</dt>
+        <dd class="col-sm-10">@Model.Language</dd>
+
+        <dt class="col-sm-2">Is Available:</dt>
+        <dd class="col-sm-10">@Model.IsAvailable</dd>
+
+        <dt class="col-sm-2">Release Date:</dt>
+        <dd class="col-sm-10">@Model.ReleaseDate.ToString("yyyy-MM-dd")</dd>
+
+        <dt class="col-sm-2">Length:</dt>
+        <dd class="col-sm-10">@Model.Length</dd>
+
+        <dt class="col-sm-2">Age Restriction:</dt>
+        <dd class="col-sm-10">@Model.AgeRestriction</dd>
+
+        <dt class="col-sm-2">Quantity:</dt>
+        <dd class="col-sm-10">@Model.Quantity</dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>
 
 @if (Model.Quantity > 0)
 {

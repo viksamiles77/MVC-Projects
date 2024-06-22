@@ -1,6 +1,7 @@
 ﻿using DataAccess.Interface;
 using DomainModels;
 using Services.Interfaces;
+using ViewModels;
 
 namespace Services.Implementation
 {
@@ -8,23 +9,35 @@ namespace Services.Implementation
     {
         private readonly IRepository<User> _userRepository;
 
-        private List<User> users = new List<User>
-        {
-            new User { Id = 1, FullName = "Viktor Mileski", CardNumber = "1234567890" }
-        };
+        public UserService(IRepository<User> userRepository) { _userRepository = userRepository; }
 
         public User AuthenticateUser(string cardNumber)
         {
+            var users = _userRepository.GetAll();
             return users.FirstOrDefault(u => u.CardNumber == cardNumber);
         }
 
-        public void RegisterUser(User user)
+        public void RegisterUser(UserViewModel userViewModel)
         {
-            user.Id = users.Max(u => u.Id) + 1;
-            user.CreatedOn = DateTime.Now;
-            user.IsSubscriptionExpired = false;
+            if (_userRepository.GetAll().Any(x => x.CardNumber == userViewModel.CardNumber))
+            {
+                throw new Exception("User with this card number already exists");
+            }
+
+            var user = new User
+            {
+                FullName = $"{userViewModel.FirstName} {userViewModel.LastName}",
+                Age = userViewModel.Age.Value,
+                UserName = userViewModel.UserName,
+                CardNumber = userViewModel.CardNumber,
+                Email = userViewModel.Email,
+                Password = userViewModel.Password,
+                SubscriptionType = userViewModel.SubscriptionType.ToString(),
+                CreatedOn = DateTime.Now,
+                IsSubscriptionExpired = false
+            };
+
             _userRepository.Add(user);
         }
-
     }
 }

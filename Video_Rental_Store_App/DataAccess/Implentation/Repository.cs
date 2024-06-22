@@ -41,7 +41,7 @@ namespace DataAccess.Implementation
         public void Add(T entity)
         {
             var items = ReadContent();
-            var nextId = items.Max(x => x.Id) + 1;
+            var nextId = items.Any() ? items.Max(x => x.Id) + 1 : 1;
 
             entity.Id = nextId;
 
@@ -88,7 +88,7 @@ namespace DataAccess.Implementation
             {
                 var content = sr.ReadToEnd();
                 JsonSerializerSettings settings = new JsonSerializerSettings();
-                items = JsonConvert.DeserializeObject<List<T>>(content);
+                items = JsonConvert.DeserializeObject<List<T>>(content) ?? new List<T>();
             }
 
             return items;
