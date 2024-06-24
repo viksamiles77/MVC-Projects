@@ -1,12 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ViewModels;
-using DataAccess;
-using DomainModels;
 using System.Diagnostics;
 using Video_Rental_Store_App.Models;
 using Services.Interfaces;
-using Services.Implementation;
-using DomainModels.Enums;
 
 namespace Video_Rental_Store_App.Controllers
 {
@@ -43,7 +39,7 @@ namespace Video_Rental_Store_App.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(LoginViewModel model)
+        public IActionResult Login([FromForm]LoginViewModel model)
         {
             {
                 var authenticatedUser = _userService.AuthenticateUser(model.CardNumber);

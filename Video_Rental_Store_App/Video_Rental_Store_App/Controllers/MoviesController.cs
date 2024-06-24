@@ -1,5 +1,4 @@
-﻿using DomainModels;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces;
 using ViewModels;
 
