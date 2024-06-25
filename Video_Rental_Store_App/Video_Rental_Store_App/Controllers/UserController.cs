@@ -50,7 +50,14 @@ namespace Video_Rental_Store_App.Controllers
             {
                 CurrentSession.Set(authenticatedUser);
                 HttpContext.Session.SetString("UserId", authenticatedUser.Id.ToString());
-                return RedirectToAction("Index", "Movies");
+                if (CurrentSession.CurrentUser.IsAdmin == true)
+                {
+                    return RedirectToAction("AdminIndex", "Movies");
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Movies");
+                }
             }
 
             ModelState.AddModelError("", "Invalid card number");

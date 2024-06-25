@@ -23,7 +23,24 @@ namespace Video_Rental_Store_App.Controllers
             return View(movies);
         }
 
+        public IActionResult AdminIndex()
+        {
+            var movies = _movieService.GetAllMovies();
+            ViewBag.Message = "No movies available";
+            return View(movies);
+        }
+
         public IActionResult Details(int id)
+        {
+            var movie = _movieService.GetMovieById(id);
+            if (movie == null)
+            {
+                return NotFound();
+            }
+            return View(movie);
+        }
+
+        public IActionResult AdminDetails(int id)
         {
             var movie = _movieService.GetMovieById(id);
             if (movie == null)
@@ -92,11 +109,11 @@ namespace Video_Rental_Store_App.Controllers
             if (CurrentSession.CurrentUser.IsAdmin == true)
             {
                 _movieService.DeleteMovie(id);
-                return RedirectToAction("Index");
+                return RedirectToAction("AdminIndex");
             }
             else
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("AdminIndex");
             }
         }
     }
