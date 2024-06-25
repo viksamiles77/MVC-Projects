@@ -1,56 +1,58 @@
 ﻿@model MovieViewModel
 
-<h1>Create New Movie</h1>
+<div class="container mt-4">
+    <h1 class="text-center main-text mb-4">Create New Movie</h1>
 
-<form asp-action="Create">
-    <div class="form-group">
-        <label asp-for="Title">Title:</label>
-        <input asp-for="Title" class="form-control" />
-        <span asp-validation-for="Title" class="text-danger"></span>
-    </div>
+    <form asp-action="Create" class="border border-primary rounded p-4">
+        <div class="form-group">
+            <label asp-for="Title" class="font-weight-bold">Title:</label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
 
-    <div class="form-group">
-        <label asp-for="Genre">Genre:</label>
-        <input asp-for="Genre" class="form-control" />
-        <span asp-validation-for="Genre" class="text-danger"></span>
-    </div>
+        <div class="form-group">
+            <label asp-for="Genre" class="font-weight-bold">Genre:</label>
+            <input asp-for="Genre" class="form-control" />
+            <span asp-validation-for="Genre" class="text-danger"></span>
+        </div>
 
-    <div class="form-group">
-        <label asp-for="Language">Language:</label>
-        <input asp-for="Language" class="form-control" />
-        <span asp-validation-for="Language" class="text-danger"></span>
-    </div>
+        <div class="form-group">
+            <label asp-for="Language" class="font-weight-bold">Language:</label>
+            <input asp-for="Language" class="form-control" />
+            <span asp-validation-for="Language" class="text-danger"></span>
+        </div>
 
-    <div class="form-group">
-        <label asp-for="IsAvailable">Is Available:</label>
-        <input asp-for="IsAvailable" type="checkbox" class="form-check-input" />
-        <span asp-validation-for="IsAvailable" class="text-danger"></span>
-    </div>
+        <div class="form-group form-check">
+            <input asp-for="IsAvailable" type="checkbox" class="form-check-input" />
+            <label asp-for="IsAvailable" class="form-check-label">Is Available:</label>
+            <span asp-validation-for="IsAvailable" class="text-danger"></span>
+        </div>
 
-    <div class="form-group">
-        <label asp-for="ReleaseDate">Release Date:</label>
-        <input asp-for="ReleaseDate" type="date" class="form-control" />
-        <span asp-validation-for="ReleaseDate" class="text-danger"></span>
-    </div>
+        <div class="form-group">
+            <label asp-for="ReleaseDate" class="font-weight-bold">Release Date:</label>
+            <input asp-for="ReleaseDate" type="date" class="form-control" />
+            <span asp-validation-for="ReleaseDate" class="text-danger"></span>
+        </div>
 
-    <div class="form-group">
-        <label asp-for="Length">Length (in minutes):</label>
-        <input asp-for="Length" type="number" class="form-control" />
-        <span asp-validation-for="Length" class="text-danger"></span>
-    </div>
+        <div class="form-group">
+            <label asp-for="Length" class="font-weight-bold">Length (in minutes):</label>
+            <input asp-for="Length" type="number" class="form-control" />
+            <span asp-validation-for="Length" class="text-danger"></span>
+        </div>
 
-    <div class="form-group">
-        <label asp-for="AgeRestriction">Age Restriction:</label>
-        <input asp-for="AgeRestriction" type="number" class="form-control" />
-        <span asp-validation-for="AgeRestriction" class="text-danger"></span>
-    </div>
+        <div class="form-group">
+            <label asp-for="AgeRestriction" class="font-weight-bold">Age Restriction:</label>
+            <input asp-for="AgeRestriction" type="number" class="form-control" />
+            <span asp-validation-for="AgeRestriction" class="text-danger"></span>
+        </div>
 
-    <div class="form-group">
-        <label asp-for="Quantity">Quantity:</label>
-        <input asp-for="Quantity" type="number" class="form-control" />
-        <span asp-validation-for="Quantity" class="text-danger"></span>
-    </div>
+        <div class="form-group">
+            <label asp-for="Quantity" class="font-weight-bold">Quantity:</label>
+            <input asp-for="Quantity" type="number" class="form-control" />
+            <span asp-validation-for="Quantity" class="text-danger"></span>
+        </div>
 
-    <button type="submit" class="btn btn-primary">Create</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
-</form>
+        <button type="submit" class="btn btn-primary btn-custom btn-block mt-3">Create</button>
+        <a asp-action="Index" class="btn btn-secondary btn-block mt-3">Cancel</a>
+    </form>
+</div>

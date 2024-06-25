@@ -3,6 +3,8 @@ using ViewModels;
 using System.Diagnostics;
 using Video_Rental_Store_App.Models;
 using Services.Interfaces;
+using Storage;
+using Services.Implementation;
 
 namespace Video_Rental_Store_App.Controllers
 {
@@ -10,11 +12,13 @@ namespace Video_Rental_Store_App.Controllers
     {
         private readonly ILogger<UserController> _logger;
         private readonly IUserService _userService;
+        private readonly IMovieService _movieService;
 
-        public UserController(ILogger<UserController> logger, IUserService userService)
+        public UserController(ILogger<UserController> logger, IUserService userService, IMovieService movieService)
         {
             _logger = logger;
             _userService = userService;
+            _movieService = movieService;
         }
 
         public IActionResult Index()
@@ -39,19 +43,18 @@ namespace Video_Rental_Store_App.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login([FromForm]LoginViewModel model)
+        public IActionResult Login(LoginViewModel model)
         {
+            var authenticatedUser = _userService.AuthenticateUser(model.CardNumber);
+            if (authenticatedUser != null)
             {
-                var authenticatedUser = _userService.AuthenticateUser(model.CardNumber);
-                if (authenticatedUser != null)
-                {
-                    HttpContext.Session.SetString("UserId", authenticatedUser.Id.ToString());
-                    return RedirectToAction("Index", "Movies");
-                }
-
-                ModelState.AddModelError("", "Invalid card number");
-                return View(model);
+                CurrentSession.Set(authenticatedUser);
+                HttpContext.Session.SetString("UserId", authenticatedUser.Id.ToString());
+                return RedirectToAction("Index", "Movies");
             }
+
+            ModelState.AddModelError("", "Invalid card number");
+            return View(model);
         }
 
         public IActionResult Register()
@@ -69,6 +72,44 @@ namespace Video_Rental_Store_App.Controllers
 
             _userService.RegisterUser(userViewModel);
             return RedirectToAction("Login");
+        }
+
+        public IActionResult Logout()
+        {
+            _userService.Logout();
+            return RedirectToAction("Login");
+        }
+
+        public IActionResult RentMovie(int id)
+        {
+            _movieService.Rent(id, CurrentSession.CurrentUser.Id);
+
+            return RedirectToAction("Index", "Movies");
+        }
+
+        public IActionResult ReturnMovie(int id)
+        {
+            _movieService.Return(id);
+
+            return RedirectToAction("UserMovies");
+        }
+        public IActionResult UserMovies()
+        {
+            var user = CurrentSession.CurrentUser;
+            var rentals = _movieService.GetRentals().Where(x => x.UserId == user.Id).ToList();
+            var userRentalModel = new UserRentalViewModel()
+            {
+                Rentals = rentals,
+                User = new UserViewModel()
+                {
+                    Id = user.Id,
+                }
+            };
+            return View(userRentalModel);
+        }
+        public IActionResult BackBtn()
+        {
+            return RedirectToAction("Index", "Movies");
         }
     }
 }

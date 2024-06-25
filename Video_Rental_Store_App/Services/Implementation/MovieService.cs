@@ -2,71 +2,42 @@
 using DomainModels;
 using Services.Interfaces;
 using ViewModels;
+using Mappers;
 
 namespace Services.Implementation
 {
     public class MovieService : IMovieService
     {
         private readonly IRepository<Movie> _movieRepository;
+        private readonly IRepository<Rental> _rentalRepository;
 
-        public MovieService(IRepository<Movie> movieRepository)
+        public MovieService(IRepository<Movie> movieRepository, IRepository<Rental> rentalRepository)
         {
             _movieRepository = movieRepository;
+            _rentalRepository = rentalRepository;
         }
-
         public List<MovieViewModel> GetAllMovies()
         {
-            return _movieRepository.GetAll().Select(m => new MovieViewModel
-            {
-                Id = m.Id,
-                Title = m.Title,
-                Genre = m.Genre,
-                Language = m.Language,
-                IsAvailable = m.IsAvailable,
-                ReleaseDate = m.ReleaseDate,
-                Length = m.Length,
-                AgeRestriction = m.AgeRestriction,
-                Quantity = m.Quantity
-            }).ToList();
+            var movies = _movieRepository.GetAll();
+            return movies.Select(x => x.ToModel()).ToList();
         }
-
         public MovieViewModel GetMovieById(int id)
         {
             var movie = _movieRepository.GetById(id);
+
             if (movie == null)
             {
                 return null;
             }
-            return new MovieViewModel
-            {
-                Id = movie.Id,
-                Title = movie.Title,
-                Genre = movie.Genre,
-                Language = movie.Language,
-                IsAvailable = movie.IsAvailable,
-                ReleaseDate = movie.ReleaseDate,
-                Length = movie.Length,
-                AgeRestriction = movie.AgeRestriction,
-                Quantity = movie.Quantity
-            };
-        }
 
-        public void AddMovie(MovieViewModel movie)
+            return movie.ToViewModel();
+        }
+        public void AddMovie(MovieViewModel movieViewModel)
         {
-            var newMovie = new Movie
-            {
-                Title = movie.Title,
-                Genre = movie.Genre,
-                Language = movie.Language,
-                IsAvailable = movie.IsAvailable,
-                ReleaseDate = movie.ReleaseDate,
-                Length = movie.Length,
-                AgeRestriction = movie.AgeRestriction,
-                Quantity = movie.Quantity
-            };
-            _movieRepository.Add(newMovie);
-        }
+            var movie = movieViewModel.ToEntity();
 
+            _movieRepository.Add(movie);
+        }
         public void UpdateMovie(MovieViewModel movie)
         {
             var existingMovie = _movieRepository.GetById(movie.Id);
@@ -86,10 +57,32 @@ namespace Services.Implementation
 
             _movieRepository.Update(existingMovie);
         }
-
         public void DeleteMovie(int id)
         {
             _movieRepository.DeleteById(id);
         }
+        public void Rent(int movieId, int userId)
+        {
+            var movie = _movieRepository.GetById(movieId);
+            _rentalRepository.Add(new Rental(userId, movieId));
+            --movie.Quantity;
+            _movieRepository.Update(movie);
+        }
+        public void Return(int rentalId)
+        {
+            var rental = _rentalRepository.GetById(rentalId);
+            rental.Return();
+            var movie = _movieRepository.GetById(rental.MovieId);
+            movie.Quantity++;
+            _rentalRepository.Update(rental);
+            _movieRepository.Update(movie);
+        }
+        public List<RentalViewModel> GetRentals() => _rentalRepository.GetAll().Select(x => x.ToModel()).ToList();
+
+
+
+
+
+
     }
 }

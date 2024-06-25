@@ -9,5 +9,8 @@ namespace Services.Interfaces
         void AddMovie(MovieViewModel movie);
         void UpdateMovie(MovieViewModel movie);
         void DeleteMovie(int id);
+        public void Rent(int movieId, int userId);
+        public void Return(int rentalId);
+        public List<RentalViewModel> GetRentals();
     }
 }

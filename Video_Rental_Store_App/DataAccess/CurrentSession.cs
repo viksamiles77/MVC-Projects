@@ -1,13 +1,18 @@
 ﻿using DomainModels;
 
-namespace DataAccess
+namespace Storage
 {
-    public class CurrentSession
+    public static class CurrentSession
     {
-        public static User CurrentUser;
+        public static User? CurrentUser { get; set; }
         public static void Set(User user)
-        { CurrentUser = user; }
+        {
+            CurrentUser = user;
+        }
         public static void RemoveUser()
-        { CurrentUser = null; }
+        {
+            CurrentUser = null;
+        }
+
     }
 }

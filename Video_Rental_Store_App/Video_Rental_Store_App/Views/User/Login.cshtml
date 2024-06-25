@@ -1,13 +1,15 @@
 ﻿@model ViewModels.LoginViewModel
 
-<form asp-action="Login">
-    <div class="form-group">
-        <label asp-for="CardNumber"></label>
-        <input asp-for="CardNumber" class="form-control" />
-        <span asp-validation-for="CardNumber" class="text-danger"></span>
-    </div>
-    <button type="submit" class="btn btn-primary">Login</button>
-</form>
-<p>
-    Don't have an account? <a asp-action="Register">Register here</a>
-</p>
+<div class="container mt-4">
+    <form asp-action="Login" class="border border-primary rounded p-4">
+        <div class="form-group">
+            <label asp-for="CardNumber" class="font-weight-bold">Card Number:</label>
+            <input asp-for="CardNumber" class="form-control" />
+            <span asp-validation-for="CardNumber" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary btn-custom btn-block mt-3">Login!</button>
+    </form>
+    <p class="text-center mt-3">
+        Don't have an account? <a asp-action="Register" class="main-text lead">Register here!</a>
+    </p>
+</div>

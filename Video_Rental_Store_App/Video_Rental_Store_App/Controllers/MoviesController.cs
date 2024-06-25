@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces;
+using Storage;
 using ViewModels;
 
 namespace Video_Rental_Store_App.Controllers
@@ -7,10 +8,12 @@ namespace Video_Rental_Store_App.Controllers
     public class MoviesController : Controller
     {
         private readonly IMovieService _movieService;
+        private readonly IUserService _userService;
 
-        public MoviesController(IMovieService movieService)
+        public MoviesController(IMovieService movieService, IUserService userService)
         {
             _movieService = movieService;
+            _userService = userService;
         }
 
         public IActionResult Index()
@@ -32,12 +35,20 @@ namespace Video_Rental_Store_App.Controllers
 
         public IActionResult Create()
         {
-            return View();
+            if (CurrentSession.CurrentUser.IsAdmin == true)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
         }
+
         [HttpPost]
-        public IActionResult Create([FromForm]MovieViewModel movie)
+        public IActionResult Create([FromForm] MovieViewModel movie)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View(movie);
             }
@@ -53,7 +64,14 @@ namespace Video_Rental_Store_App.Controllers
             {
                 return NotFound();
             }
-            return View(movie);
+            if (CurrentSession.CurrentUser.IsAdmin == true)
+            {
+                return View(movie);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
         }
 
         [HttpPost]
@@ -71,8 +89,15 @@ namespace Video_Rental_Store_App.Controllers
 
         public IActionResult Delete(int id)
         {
-            _movieService.DeleteMovie(id);
-            return RedirectToAction("Index");
+            if (CurrentSession.CurrentUser.IsAdmin == true)
+            {
+                _movieService.DeleteMovie(id);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
         }
     }
 }
