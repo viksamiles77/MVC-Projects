@@ -16,6 +16,7 @@ namespace ViewModels
         [MaxLength(50)]
         public string? LastName { get; set; }
         [Required]
+        [Range(0, 100, ErrorMessage = "Age must be a positive number.")]
         public int? Age { get; set; }
         [Required]
         public string? UserName { get; set; }

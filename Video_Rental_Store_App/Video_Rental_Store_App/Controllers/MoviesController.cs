@@ -58,7 +58,7 @@ namespace Video_Rental_Store_App.Controllers
             }
             else
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("AdminIndex");
             }
         }
 
@@ -71,7 +71,7 @@ namespace Video_Rental_Store_App.Controllers
             }
 
             _movieService.AddMovie(movie);
-            return RedirectToAction("Index");
+            return RedirectToAction("AdminIndex");
         }
 
         public IActionResult Edit(int id)
@@ -81,14 +81,7 @@ namespace Video_Rental_Store_App.Controllers
             {
                 return NotFound();
             }
-            if (CurrentSession.CurrentUser.IsAdmin == true)
-            {
-                return View(movie);
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
+            return View(movie);
         }
 
         [HttpPost]
@@ -101,7 +94,7 @@ namespace Video_Rental_Store_App.Controllers
 
             _movieService.UpdateMovie(model);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("AdminIndex");
         }
 
         public IActionResult Delete(int id)
