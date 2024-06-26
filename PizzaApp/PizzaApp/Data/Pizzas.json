@@ -1,14 +1,1 @@
-[
-  {
-    "Name": "Peperoni",
-    "Description": "This is classic Peperoni pizza.",
-    "ImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvcIIKSUKuHyIIw8Gu21XDKGDOTChxhlpI0w&s",
-    "Id": 2
-  },
-  {
-    "Name": "Burger Pizza",
-    "Description": "The burger pizza is made up of a combination of the classic burger buns and the ingredients of a pizza – vegetables, chewy cheese, and all the other necessities to provide the right taste.",
-    "ImageUrl": "https://www.dominos.co.in/files/items/160790_Burger_Pizza_427X298_Pixel.jpg",
-    "Id": 3
-  }
-]
+[{"Name":"Peperoni","Description":"This is classic Peperoni pizza.","ImageUrl":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvcIIKSUKuHyIIw8Gu21XDKGDOTChxhlpI0w&s","Id":2},{"Name":"Burger Pizza","Description":"The burger pizza is made up of a combination of the classic burger buns and the ingredients of a pizza – vegetables, chewy cheese, and all the other necessities to provide the right taste.","ImageUrl":"https://www.dominos.co.in/files/items/160790_Burger_Pizza_427X298_Pixel.jpg","Id":3},{"Name":"Pizza For Db","Description":"pizza for db","ImageUrl":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT58G7nrNkv1XrT9ya56V5CEbmhsCancNEz5g&s","Id":4}]

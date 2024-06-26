@@ -1,119 +1,53 @@
 ﻿using DataAccess.Interface;
 using DomainModels;
-using Newtonsoft.Json;
 
 namespace DataAccess.Implementation
 {
     public class Repository<T> : IRepository<T> where T : BaseEntity
     {
+        protected PizzaAppDbContext _DbContext;
+        public Repository(PizzaAppDbContext dbContext)
+        {
+            _DbContext = dbContext;
+        }
         public List<T> GetAll()
         {
-            return ReadContent();
+            return _DbContext.Set<T>().ToList();
         }
 
         public T GetById(int id)
         {
-            var items = ReadContent();
-            var item = items.FirstOrDefault(x => x.Id == id);
+            var item = _DbContext.Set<T>().Where(x => x.Id == id).FirstOrDefault();
 
             if (item == null)
             {
-                throw new KeyNotFoundException($"Entitty with id: {id} is not found");
+                throw new KeyNotFoundException($"Entity with id: {id} was not found");
             }
             return item;
         }
 
-        public void Update(T entity)
-        {
-            var items = ReadContent();
-            var item = items.FirstOrDefault(x => x.Id == entity.Id);
-
-            if (item == null)
-            {
-                throw new KeyNotFoundException($"Entitty with id: {entity.Id} is not found");
-            }
-
-            var indexOfItem = items.IndexOf(item);
-            items[indexOfItem] = entity;
-            WriteContent(items);
-        }
-
         public void Add(T entity)
         {
-            var items = ReadContent();
-            var nextId = items.Max(x => x.Id) + 1;
+            _DbContext.Add(entity);
+            _DbContext.SaveChanges();
+        }
 
-            entity.Id = nextId;
-
-            items.Add(entity);
-            WriteContent(items);
+        public void Update(T entity)
+        {
+            _DbContext.Update(entity);
+            _DbContext.SaveChanges();
         }
 
         public void Delete(T entity)
         {
-            DeleteById(entity.Id);
+            _DbContext.Remove(entity);
+            _DbContext.SaveChanges();
         }
 
         public void DeleteById(int id)
         {
-            var items = ReadContent();
-            var item = items.FirstOrDefault(x => x.Id == id);
-
-            if (item == null)
-            {
-                throw new KeyNotFoundException($"Entitty with id: {id} is not found");
-            }
-
-            items.Remove(item);
-            WriteContent(items);
-        }
-
-        public List<T> ReadContent()
-        {
-            string folderPath = Environment.CurrentDirectory + @"\Data\";
-            string filepath = folderPath + typeof(T).Name + "s.json";
-            List<T> items = new List<T>();
-
-            if (!Directory.Exists(folderPath))
-            {
-                Directory.CreateDirectory(folderPath);
-            }
-
-            if (!File.Exists(filepath))
-            {
-                return new List<T>();
-            }
-
-            using (var sr = new StreamReader(filepath))
-            {
-                var content = sr.ReadToEnd();
-                JsonSerializerSettings settings = new JsonSerializerSettings();
-                items = JsonConvert.DeserializeObject<List<T>>(content);
-            }
-
-            return items;
-        }
-
-        private void WriteContent(List<T> items)
-        {
-            string folderPath = Environment.CurrentDirectory + @"\Data\";
-            string filepath = folderPath + typeof(T).Name + "s.json";
-
-            if (!Directory.Exists(folderPath))
-            {
-                Directory.CreateDirectory(folderPath);
-            }
-
-            if (!File.Exists(filepath))
-            {
-                File.Create(filepath).Close();
-            }
-
-            using (var sw = new StreamWriter(filepath))
-            {
-                var content = JsonConvert.SerializeObject(items);
-                sw.WriteLine(content);
-            }
+            var item = GetById(id);
+            Delete(item);
         }
     }
 }
