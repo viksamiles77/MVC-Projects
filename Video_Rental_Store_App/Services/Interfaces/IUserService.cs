@@ -7,5 +7,7 @@ namespace Services.Interfaces
     {
         public User AuthenticateUser(string cardNumber);
         public void RegisterUser(UserViewModel userViewModel);
+        public UserViewModel GetCurrentUser();
+        public void Logout();
     }
 }

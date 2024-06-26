@@ -22,10 +22,13 @@ namespace ViewModels
         [Required]
         public DateTime ReleaseDate { get; set; }
         [Required]
-        public TimeSpan Length { get; set; }
+        [Range(0, int.MaxValue, ErrorMessage = "Length must be a positive number.")]
+        public int Length { get; set; }
         [Required]
+        [Range(0, 100, ErrorMessage = "Age Restriction must be a positive number.")]
         public int AgeRestriction { get; set; }
         [Required]
+        [Range(0, int.MaxValue, ErrorMessage = "Quantity must be a positive number.")]
         public int Quantity { get; set; }
     }
 }

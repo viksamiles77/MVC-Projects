@@ -1,18 +1,82 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+}
+
+.btn-custom {
+    background-color: #732a99;
+    border-color: #732a99;
+}
+
+    .btn-custom:hover {
+        background-color: #5f247e;
+        border-color: #5f247e;
+    }
+
+.thead-dark {
+    background-color: #732a99;
+    color: white;
+}
+
+.btn-primary.btn-custom {
+    background-color: #732a99;
+    border-color: #732a99;
+}
+
+    .btn-primary.btn-custom:hover {
+        background-color: #5f247e;
+        border-color: #5f247e;
+    }
+
+.main-text {
+    color: #732a99;
+}
+
+    .main-text:hover {
+        color: #732a99;
+    }
+
+btn-primary {
+    background-color: #732a99 !important;
+    border-color: #732a99;
+}
+
+.btn-primary:hover {
+    background-color: #5f247e;
+    border-color: #5f247e;
+}
+
+.text-primary {
+    color: #732a99;
+}
+
+    .text-primary:hover {
+        color: #5f247e;
+    }
+
+.form-control:focus {
+    border-color: #732a99;
+    box-shadow: 0 0 0 0.2rem rgba(115, 42, 153, 0.25);
+}
+
+.border-primary {
+    border-color: #732a99 !important;
+}
+
+.font-weight-bold {
+    font-weight: bold;
 }
